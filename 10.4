@@ -1,0 +1,22 @@
+1.Write a pig script find the average age of male and female persons died in the titanic tragedy.
+
+we will use the following pig commands:
+
+A = LOAD '/home/acadgild/TitanicData.txt' USING PigStorage (',')
+AS (passengerId:int, survived:int, pclass:int, name:chararray, sex=chararray, age:int, sibSp:int, parch:int, ticket:chararray, fare:chararray,cabin:chararray,embarked:chararray);
+B = FILTER A by survived==1;      // we are checking for person who died so survived should be 1
+C = GROUP B by sex;
+D = FOREACH C generate group, AVG(B.age); //using AVG for average
+DUMP D;
+
+
+2.Write a pig script to find the number of people died and survived in each class
+
+we will use the following pig commands:
+
+A = LOAD '/home/acadgild/TitanicData.txt' USING PigStorage (',')
+AS (passengerId:int, survived:int, pclass:int, name:chararray, sex=chararray, age:int, sibSp:int, parch:int, ticket:chararray, fare:chararray,cabin:chararray,embarked:chararray);
+B = GROUP A by (pclass,survived);
+C = FOREACH B generate group, COUNT(A.passengerId); //using count function so as to count total number
+DUMP C;
+
